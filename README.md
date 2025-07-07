@@ -80,8 +80,9 @@ public interface Calculator {
 ```
 
 The `@ScriptImplementation` annotation is optional and should be used only if you have
-the JavaScript implementation of the interface available at build time. If you are loading
-the JavaScript at runtime, do not include this annotation.
+the JavaScript implementation of the interface available at build time or at a well known
+location at runtime. If you are loading the JavaScript from some other dynamic location, 
+do not include this annotation and instead using the factory pattern.
 
 **Note:** you will be able to directly inject the interface in your CDI service beans
 **only if** you have the interface annotated with `@ScriptImplementation`.  Otherwise,
@@ -239,10 +240,10 @@ The extension supports multiple ways to load JavaScript files:
    ```java
    @ScriptImplementation(location = "scripts/my-script.js")
    ```
-   
-**Note:** In all cases the script referenced in the `@ScriptImplementation` interface must be
-available at build time.  If you wish to use a script available only at runtime, you
-will need to use the factory approach to creating your script interfacew instance.
+
+**Note:** In all cases the script referenced in the `@ScriptImplementation` interface
+must be available at runtime (on the classpath or on the file system).  If the 
+script is available at build time, it should be packaged with the application.
 
 ## Error Handling
 
