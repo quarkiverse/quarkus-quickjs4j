@@ -79,12 +79,12 @@ public interface Calculator {
 }
 ```
 
-The `@ScriptImplementation` annotation is optional and should be used if e.g. you are 
-packaging the JavaScript code with your Quarkus application.  If you are loading the
-JavaScript in a more dynamic way, do not include this annotation.
+The `@ScriptImplementation` annotation is optional and should be used only if you have
+the JavaScript implementation of the interface available at build time. If you are loading
+the JavaScript at runtime, do not include this annotation.
 
-Note: you will be able to directly inject the interface in your CDI service beans
-**only if** you have the interface annotated with `@ScriptImplementation`.  Otherwise
+**Note:** you will be able to directly inject the interface in your CDI service beans
+**only if** you have the interface annotated with `@ScriptImplementation`.  Otherwise,
 you will need to inject a factory.
 
 ### 2. Create the JavaScript Implementation
@@ -239,6 +239,10 @@ The extension supports multiple ways to load JavaScript files:
    ```java
    @ScriptImplementation(location = "scripts/my-script.js")
    ```
+   
+**Note:** In all cases the script referenced in the `@ScriptImplementation` interface must be
+available at build time.  If you wish to use a script available only at runtime, you
+will need to use the factory approach to creating your script interfacew instance.
 
 ## Error Handling
 
