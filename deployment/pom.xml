@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>quarkus-quickjs4j-deployment</artifactId>
+    <name>quarkus-quickjs4j-deployment</name>
 
     <dependencies>
         <!-- The runtime component -->
