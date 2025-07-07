@@ -1,0 +1,11 @@
+name: "Quarkus quickjs4j"
+metadata:
+  keywords:
+    - "scripting"
+    - "javascript"
+    - "quickjs4j"
+    - "polyglot"
+  guide: "https://github.com/roastedroot/quickjs4j/blob/main/Readme.md"
+  categories:
+    - "polyglot"
+  status: "experimental"
