@@ -71,7 +71,7 @@ import io.roastedroot.quickjs4j.annotations.ScriptInterface;
 import io.quarkiverse.quickjs4j.annotations.ScriptImplementation;
 
 @ScriptInterface
-@ScriptImplementation(location = "calculator.js")
+@ScriptImplementation(location = "dynamicCalculator.js")
 public interface Calculator {
     int add(int a, int b);
     int multiply(int a, int b);
@@ -90,7 +90,7 @@ you will need to inject a factory.
 
 ### 2. Create the JavaScript Implementation
 
-Create `src/main/resources/calculator.js`:
+Create `src/main/resources/dynamicCalculator.js`:
 
 ```javascript
 function add(a, b) {
@@ -153,7 +153,7 @@ import io.roastedroot.quickjs4j.annotations.ScriptInterface;
 import io.quarkiverse.quickjs4j.annotations.ScriptImplementation;
 
 @ScriptInterface(context = CalculatorContext.class)
-@ScriptImplementation(location = "calculator.js")
+@ScriptImplementation(location = "dynamicCalculator.js")
 public interface Calculator {
     int add(int a, int b);
     int multiply(int a, int b);

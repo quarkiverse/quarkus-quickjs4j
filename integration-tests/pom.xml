@@ -19,6 +19,9 @@
 
     <modules>
         <module>basic</module>
+        <module>basicFactory</module>
+        <module>context</module>
+        <module>contextFactory</module>
     </modules>
 
     <build>
