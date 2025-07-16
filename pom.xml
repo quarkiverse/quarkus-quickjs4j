@@ -8,7 +8,7 @@
     </parent>
     <groupId>io.quarkiverse.quickjs4j</groupId>
     <artifactId>quarkus-quickjs4j-parent</artifactId>
-    <version>999-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>pom</packaging>
     <name>quarkus-quickjs4j-parent</name>
     <modules>
@@ -96,7 +96,7 @@
         <connection>scm:git:https://github.com/quarkiverse/quarkus-quickjs4j.git</connection>
         <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-quickjs4j.git</developerConnection>
         <url>https://github.com/quarkiverse/quarkus-quickjs4j</url>
-      <tag>HEAD</tag>
+      <tag>0.0.1</tag>
   </scm>
 
     <profiles>
