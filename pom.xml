@@ -38,6 +38,12 @@
         </dependencies>
     </dependencyManagement>
 
+    <scm>
+        <connection>scm:git:https://github.com/quarkiverse/quarkus-quickjs4j.git</connection>
+        <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-quickjs4j.git</developerConnection>
+        <url>https://github.com/quarkiverse/quarkus-quickjs4j</url>
+    </scm>
+
     <build>
         <pluginManagement>
             <plugins>
