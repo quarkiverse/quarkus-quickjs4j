@@ -10,7 +10,7 @@
     <artifactId>quarkus-quickjs4j-parent</artifactId>
     <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
-
+    <name>quarkus-quickjs4j-parent</name>
     <modules>
         <module>deployment</module>
         <module>runtime</module>

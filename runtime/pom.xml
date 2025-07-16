@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>quarkus-quickjs4j</artifactId>
+    <name>quarkus-quickjs4j</name>
     <description>Run JavaScript plugins in Java</description>
     <dependencies>
         <!-- Quarkus stuff -->
