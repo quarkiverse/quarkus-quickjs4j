@@ -52,13 +52,6 @@
     </developer>
   </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:quarkiverse/quarkus-quickjs4j.git</connection>
-        <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-quickjs4j.git</developerConnection>
-        <tag>HEAD</tag>
-        <url>https://github.com/quarkiverse/quarkus-quickjs4j</url>
-    </scm>
-
 
     <modules>
         <module>runtime</module>
