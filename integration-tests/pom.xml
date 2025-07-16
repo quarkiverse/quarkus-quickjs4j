@@ -60,11 +60,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <release>${maven.compiler.release}</release>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>io.quarkiverse.quickjs4j</groupId>
@@ -86,7 +82,7 @@
             </activation>
             <properties>
                 <skipITs>false</skipITs>
-                <quarkus.package.type>native</quarkus.package.type>
+                <quarkus.native.enabled>true</quarkus.native.enabled>
             </properties>
             <build>
                 <plugins>

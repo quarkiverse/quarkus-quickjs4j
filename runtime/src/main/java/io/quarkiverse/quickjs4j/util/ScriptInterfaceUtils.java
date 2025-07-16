@@ -4,9 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -55,8 +52,8 @@ public class ScriptInterfaceUtils {
 
             // Read from the input stream
             try (InputStream inputStream = connection.getInputStream();
-                 BufferedReader reader = new BufferedReader(
-                         new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
                 return reader.lines().collect(Collectors.joining("\n"));
             }
         } catch (IOException e) {

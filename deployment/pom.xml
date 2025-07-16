@@ -36,17 +36,14 @@
         <dependency>
             <groupId>io.roastedroot</groupId>
             <artifactId>quickjs4j</artifactId>
-            <version>${quickjs4j.version}</version>
         </dependency>
         <dependency>
             <groupId>io.roastedroot</groupId>
             <artifactId>quickjs4j-annotations</artifactId>
-            <version>${quickjs4j.version}</version>
         </dependency>
         <dependency>
             <groupId>io.roastedroot</groupId>
             <artifactId>quickjs4j-processor</artifactId>
-            <version>${quickjs4j.version}</version>
         </dependency>
 
         <!-- Testing -->
@@ -73,8 +70,8 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire-plugin.version}</version>
                 <configuration>
                     <systemPropertyVariables>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>

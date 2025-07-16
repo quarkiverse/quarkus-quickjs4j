@@ -1,0 +1,5 @@
+name: quarkus-quickjs4j
+title: QuickJS4J
+version: dev
+nav:
+  - modules/ROOT/nav.adoc

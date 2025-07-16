@@ -13,7 +13,6 @@
 
     <!-- Uncomment the following lines to verify native-image too -->
     <properties>
-        <quarkus.package.type>native</quarkus.package.type>
         <skipITs>false</skipITs>
     </properties>
 

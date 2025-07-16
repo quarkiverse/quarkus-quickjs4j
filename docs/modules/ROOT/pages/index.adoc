@@ -1,0 +1,7 @@
+= Quarkus Quickjs4j
+
+include::./includes/attributes.adoc[]
+:diataxis-type: reference
+:categories: integration
+
+Add here the docs

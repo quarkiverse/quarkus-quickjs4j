@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>quarkus-quickjs4j</artifactId>
-
+    <description>Run JavaScript plugins in Java</description>
     <dependencies>
         <!-- Quarkus stuff -->
         <dependency>
@@ -28,29 +28,24 @@
         <dependency>
             <groupId>io.roastedroot</groupId>
             <artifactId>quickjs4j</artifactId>
-            <version>${quickjs4j.version}</version>
         </dependency>
         <dependency>
             <groupId>io.roastedroot</groupId>
             <artifactId>quickjs4j-annotations</artifactId>
-            <version>${quickjs4j.version}</version>
         </dependency>
         <dependency>
             <groupId>io.roastedroot</groupId>
             <artifactId>quickjs4j-processor</artifactId>
-            <version>${quickjs4j.version}</version>
         </dependency>
 
         <!-- JBoss Forge Roaster -->
         <dependency>
             <groupId>org.jboss.forge.roaster</groupId>
             <artifactId>roaster-api</artifactId>
-            <version>${roaster.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.forge.roaster</groupId>
             <artifactId>roaster-jdt</artifactId>
-            <version>${roaster.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
@@ -60,7 +55,6 @@
             <plugin>
                 <groupId>io.quarkus</groupId>
                 <artifactId>quarkus-extension-maven-plugin</artifactId>
-                <version>${quarkus.version}</version>
                 <executions>
                     <execution>
                         <goals>
