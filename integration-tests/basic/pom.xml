@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.quarkiverse.quickjs4j</groupId>
         <artifactId>quarkus-quickjs4j-integration-tests-parent</artifactId>
-        <version>0.0.1</version>
+        <version>999-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>quarkus-quickjs4j-integration-tests-basic</artifactId>
