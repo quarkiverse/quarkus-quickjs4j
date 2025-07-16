@@ -3,22 +3,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <parent>
+        <groupId>io.quarkiverse</groupId>
+        <artifactId>quarkiverse-parent</artifactId>
+        <version>20</version>
+    </parent>
     <groupId>io.quarkiverse.quickjs4j</groupId>
     <artifactId>quarkus-quickjs4j-parent</artifactId>
     <version>999-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <properties>
-        <maven.compiler.release>17</maven.compiler.release>
+    <modules>
+        <module>deployment</module>
+        <module>runtime</module>
+    </modules>
 
+    <properties>
         <quarkus.version>3.20.1</quarkus.version>
         <quickjs4j.version>0.0.6</quickjs4j.version>
         <roaster.version>2.30.1.Final</roaster.version>
-
-        <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
-        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-        <surefire-plugin.version>3.5.3</surefire-plugin.version>
     </properties>
 
     <description>A Quarkus Extension to run JavaScript plugins in Java</description>
@@ -29,35 +32,28 @@
         <url>https://kiota.io</url>
     </organization>
 
-  <licenses>
-    <license>
-      <name>Apache-2.0</name>
-      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
+    <licenses>
+        <license>
+            <name>Apache-2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
 
-  <developers>
-    <developer>
-      <id>EricWittmann</id>
-      <name>Eric Wittmann</name>
-      <email>eric.wittmann@ibm.com</email>
-      <organization>IBM</organization>
-    </developer>
-    <developer>
-      <id>andreaTP</id>
-      <name>Andrea Peruffo</name>
-      <email>andrea.peruffo1982@gmail.com</email>
-      <organization>IBM</organization>
-    </developer>
-  </developers>
-
-
-    <modules>
-        <module>runtime</module>
-        <module>deployment</module>
-        <module>integration-tests</module>
-    </modules>
+    <developers>
+        <developer>
+            <id>EricWittmann</id>
+            <name>Eric Wittmann</name>
+            <email>eric.wittmann@ibm.com</email>
+            <organization>IBM</organization>
+        </developer>
+        <developer>
+            <id>andreaTP</id>
+            <name>Andrea Peruffo</name>
+            <email>andrea.peruffo1982@gmail.com</email>
+            <organization>IBM</organization>
+        </developer>
+    </developers>
 
     <dependencyManagement>
         <dependencies>
@@ -68,6 +64,33 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- quickjs4j -->
+            <dependency>
+                <groupId>io.roastedroot</groupId>
+                <artifactId>quickjs4j</artifactId>
+                <version>${quickjs4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.roastedroot</groupId>
+                <artifactId>quickjs4j-annotations</artifactId>
+                <version>${quickjs4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.roastedroot</groupId>
+                <artifactId>quickjs4j-processor</artifactId>
+                <version>${quickjs4j.version}</version>
+            </dependency>
+            <!-- JBoss Forge Roaster -->
+            <dependency>
+                <groupId>org.jboss.forge.roaster</groupId>
+                <artifactId>roaster-api</artifactId>
+                <version>${roaster.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.forge.roaster</groupId>
+                <artifactId>roaster-jdt</artifactId>
+                <version>${roaster.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -77,64 +100,48 @@
         <url>https://github.com/quarkiverse/quarkus-quickjs4j</url>
     </scm>
 
+    <profiles>
+        <profile>
+            <id>docs</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>!true</value>
+                </property>
+            </activation>
+            <modules>
+                <module>docs</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>it</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>!true</value>
+                </property>
+            </activation>
+            <modules>
+                <module>integration-tests</module>
+            </modules>
+        </profile>
+    </profiles>
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven-compiler-plugin.version}</version>
-                    <configuration>
-                        <release>${maven.compiler.release}</release>
-                    </configuration>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-maven-plugin</artifactId>
+                    <version>${quarkus.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>io.quarkus</groupId>
+                    <artifactId>quarkus-config-doc-maven-plugin</artifactId>
+                    <version>${quarkus.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
     </build>
 
-    <profiles>
-        <profile>
-        <id>non-release</id>
-        <activation>
-            <activeByDefault>true</activeByDefault>
-        </activation>
-        <modules>
-            <module>deployment</module>
-            <module>runtime</module>
-            <module>integration-tests</module>
-        </modules>
-        </profile>
-        <profile>
-        <id>release</id>
-        <modules>
-            <module>deployment</module>
-            <module>runtime</module>
-        </modules>
-        <build>
-            <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>${maven-gpg-plugin.version}</version>
-                <configuration>
-                <gpgArguments>
-                    <arg>--pinentry-mode</arg>
-                    <arg>loopback</arg>
-                </gpgArguments>
-                </configuration>
-                <executions>
-                <execution>
-                    <id>sign-artifacts</id>
-                    <goals>
-                    <goal>sign</goal>
-                    </goals>
-                    <phase>verify</phase>
-                </execution>
-                </executions>
-            </plugin>
-            </plugins>
-        </build>
-        </profile>
-    </profiles>
 
 </project>

@@ -1,19 +1,15 @@
 package io.quarkiverse.quickjs4j.runtime;
 
-import com.github.javaparser.ast.Modifier;
-import com.github.javaparser.ast.expr.MethodCallExpr;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.stmt.ReturnStmt;
-import io.quarkiverse.quickjs4j.ScriptInterfaceFactory;
-import io.quarkiverse.quickjs4j.annotations.ScriptImplementation;
-import io.quarkiverse.quickjs4j.util.ScriptInterfaceUtils;
-import io.roastedroot.quickjs4j.annotations.ScriptInterface;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import org.jboss.forge.roaster.Roaster;
-import org.jboss.forge.roaster.model.source.JavaClassSource;
-import org.jboss.forge.roaster.model.source.MethodSource;
+import static java.lang.String.format;
+import static javax.tools.Diagnostic.Kind.ERROR;
+import static javax.tools.Diagnostic.Kind.NOTE;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
@@ -32,17 +28,18 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
-import java.io.IOException;
-import java.io.Writer;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import static java.lang.String.format;
-import static javax.tools.Diagnostic.Kind.ERROR;
-import static javax.tools.Diagnostic.Kind.NOTE;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+import org.jboss.forge.roaster.Roaster;
+import org.jboss.forge.roaster.model.source.JavaClassSource;
+import org.jboss.forge.roaster.model.source.MethodSource;
+
+import io.quarkiverse.quickjs4j.ScriptInterfaceFactory;
+import io.quarkiverse.quickjs4j.annotations.ScriptImplementation;
+import io.quarkiverse.quickjs4j.util.ScriptInterfaceUtils;
+import io.roastedroot.quickjs4j.annotations.ScriptInterface;
 
 public class ScriptInterfaceProcessor extends AbstractProcessor {
 
@@ -145,22 +142,21 @@ public class ScriptInterfaceProcessor extends AbstractProcessor {
 
         // Create the _createDelegate() method
         String createDelegateMethodBody = """
-            String scriptLibrary = ScriptInterfaceUtils.loadScriptLibrary(SCRIPT_LIBRARY_LOCATION);
-            return new PROXY_CLASS_NAME(scriptLibrary, context);
-        """;
+                    String scriptLibrary = ScriptInterfaceUtils.loadScriptLibrary(SCRIPT_LIBRARY_LOCATION);
+                    return new PROXY_CLASS_NAME(scriptLibrary, context);
+                """;
         if (!hasContextClass) {
             createDelegateMethodBody = """
-                String scriptLibrary = ScriptInterfaceUtils.loadScriptLibrary(SCRIPT_LIBRARY_LOCATION);
-                return new PROXY_CLASS_NAME(scriptLibrary);
-            """;
+                        String scriptLibrary = ScriptInterfaceUtils.loadScriptLibrary(SCRIPT_LIBRARY_LOCATION);
+                        return new PROXY_CLASS_NAME(scriptLibrary);
+                    """;
         }
         MethodSource<JavaClassSource> createDelegateMethodSource = cdiBeanSource.addMethod();
         createDelegateMethodSource.setPrivate();
         createDelegateMethodSource.setReturnType(proxyClassName);
         createDelegateMethodSource.setName("_createDelegate");
         createDelegateMethodSource.setBody(template(createDelegateMethodBody, Map.of(
-                "PROXY_CLASS_NAME", proxyClassName
-        )));
+                "PROXY_CLASS_NAME", proxyClassName)));
 
         // Implement all methods in the script interface
         Set<String> excludedMembers = Set.of(scriptInterfaceElement.getAnnotation(ScriptInterface.class).excluded());
@@ -200,22 +196,20 @@ public class ScriptInterfaceProcessor extends AbstractProcessor {
                     methodSource.setReturnType(returnType);
                 }
 
-                List<? extends TypeMirror> thrownTypes =
-                        ((ExecutableElement) member).getThrownTypes();
+                List<? extends TypeMirror> thrownTypes = ((ExecutableElement) member).getThrownTypes();
                 for (TypeMirror thrownType : thrownTypes) {
                     methodSource.addThrows(thrownType.toString());
                 }
 
                 String methodBody = """
-                    try (var delegate = _createDelegate()) {
-                        RETURN delegate.METHOD_NAME(METHOD_ARGS);
-                    }
-                """;
+                            try (var delegate = _createDelegate()) {
+                                RETURN delegate.METHOD_NAME(METHOD_ARGS);
+                            }
+                        """;
                 methodSource.setBody(template(methodBody, Map.of(
                         "RETURN", "void".equals(returnType) ? "" : "return",
                         "METHOD_NAME", methodName,
-                        "METHOD_ARGS", String.join(",", paramNames)
-                )));
+                        "METHOD_ARGS", String.join(",", paramNames))));
             }
         }
 
@@ -266,17 +260,16 @@ public class ScriptInterfaceProcessor extends AbstractProcessor {
         factorySource.addInterface(template("INTERFACE<TYPE, CONTEXT>", Map.of(
                 "INTERFACE", ScriptInterfaceFactory.class.getSimpleName(),
                 "TYPE", scriptInterfaceName,
-                "CONTEXT", contextClassName
-        )));
+                "CONTEXT", contextClassName)));
 
         // Create the create(String, Context) method
         String produceMethodBody = """
-            return new PROXY_CLASS_NAME(scriptLibrary, context);
-        """;
+                    return new PROXY_CLASS_NAME(scriptLibrary, context);
+                """;
         if (!hasContextClass) {
             produceMethodBody = """
-                return new PROXY_CLASS_NAME(scriptLibrary);
-            """;
+                        return new PROXY_CLASS_NAME(scriptLibrary);
+                    """;
         }
         MethodSource<JavaClassSource> createMethodSource = factorySource.addMethod();
         createMethodSource.setPublic();
@@ -285,8 +278,7 @@ public class ScriptInterfaceProcessor extends AbstractProcessor {
         createMethodSource.addParameter("String", "scriptLibrary");
         createMethodSource.addParameter(contextClassName, "context");
         createMethodSource.setBody(template(produceMethodBody, Map.of(
-                "PROXY_CLASS_NAME", proxyClassName
-        )));
+                "PROXY_CLASS_NAME", proxyClassName)));
         createMethodSource.addAnnotation(Override.class);
 
         try (Writer writer = filer().createSourceFile(factoryClassFQN, scriptInterfaceElement).openWriter()) {
@@ -301,7 +293,8 @@ public class ScriptInterfaceProcessor extends AbstractProcessor {
         for (AnnotationMirror annotationMirror : annotationMirrors) {
             DeclaredType annotationType = annotationMirror.getAnnotationType();
             Element annotationElement = annotationType.asElement();
-            String annotationQualifiedName = getPackageName(annotationElement).toString() + "." + annotationElement.getSimpleName();
+            String annotationQualifiedName = getPackageName(annotationElement).toString() + "."
+                    + annotationElement.getSimpleName();
             if (annotationQualifiedName.equals(ScriptInterface.class.getName())) {
                 return annotationMirror;
             }
