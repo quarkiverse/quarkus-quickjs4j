@@ -10,9 +10,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.release>17</maven.compiler.release>
 
         <quarkus.version>3.20.1</quarkus.version>
         <quickjs4j.version>0.0.5</quickjs4j.version>
@@ -48,8 +46,6 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
-                        <source>${maven.compiler.source}</source>
-                        <target>${maven.compiler.target}</target>
                         <release>${maven.compiler.release}</release>
                     </configuration>
                 </plugin>

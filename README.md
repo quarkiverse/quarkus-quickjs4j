@@ -14,7 +14,7 @@ A Quarkus extension that integrates [quickjs4j](https://github.com/roastedroot/q
 
 ## Requirements
 
-- Java 21+
+- Java 17+
 - Quarkus 3.20.1+
 - Maven 3.6.3+
 
