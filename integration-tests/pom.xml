@@ -21,6 +21,7 @@
         <module>basicFactory</module>
         <module>context</module>
         <module>contextFactory</module>
+        <module>complexTypes</module>
     </modules>
 
     <build>
