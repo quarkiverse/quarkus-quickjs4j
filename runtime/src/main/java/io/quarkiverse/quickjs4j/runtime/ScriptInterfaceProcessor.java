@@ -71,8 +71,9 @@ public class ScriptInterfaceProcessor extends AbstractProcessor {
         processingEnv.getMessager().printMessage(kind, message, element);
     }
 
-    TypeScriptTypeMapper typeMapper() {
-        return new TypeScriptTypeMapper(processingEnv.getTypeUtils());
+    TypeScriptTypeMapper typeMapper(TypeElement scriptInterfaceElement) {
+        String packageName = getPackageName(scriptInterfaceElement).toString();
+        return new TypeScriptTypeMapper(processingEnv.getTypeUtils(), processingEnv.getElementUtils(), packageName);
     }
 
     @Override
@@ -312,7 +313,7 @@ public class ScriptInterfaceProcessor extends AbstractProcessor {
 
         String scriptInterfaceName = scriptInterfaceElement.getSimpleName().toString();
         String fileName = "META-INF/quickjs4j/" + scriptInterfaceName + "_Builtins.d.ts";
-        TypeScriptTypeMapper mapper = typeMapper();
+        TypeScriptTypeMapper mapper = typeMapper(scriptInterfaceElement);
 
         StringBuilder tsContent = new StringBuilder();
 
@@ -427,6 +428,20 @@ public class ScriptInterfaceProcessor extends AbstractProcessor {
         }
 
         tsContent.append("}\n");
+
+        // Section 3: Bean Type Definitions (if any were encountered)
+        Set<TypeElement> beanTypes = mapper.getEncounteredBeanTypes();
+        if (!beanTypes.isEmpty()) {
+            tsContent.append("\n");
+            tsContent.append("// =============================================================================\n");
+            tsContent.append("// Type Definitions - TypeScript interfaces for Java beans\n");
+            tsContent.append("// =============================================================================\n\n");
+
+            for (TypeElement beanType : beanTypes) {
+                tsContent.append(mapper.generateBeanInterface(beanType));
+                tsContent.append("\n");
+            }
+        }
 
         // Write the TypeScript definition file
         try {

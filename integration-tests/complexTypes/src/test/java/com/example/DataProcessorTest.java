@@ -91,8 +91,30 @@ public class DataProcessorTest {
         assertTrue(content.contains("createPerson("),
                 ".d.ts file should declare createPerson method in interface");
 
-        // Verify type annotations
-        assertTrue(content.contains(": any"),
-                ".d.ts file should contain TypeScript type annotations");
+        // Verify Section 3: Bean Type Definitions
+        assertTrue(content.contains("Type Definitions"),
+                ".d.ts file should have type definitions section");
+        assertTrue(content.contains("export interface Person"),
+                ".d.ts file should declare Person bean interface");
+        assertTrue(content.contains("export interface Address"),
+                ".d.ts file should declare Address bean interface");
+        assertTrue(content.contains("export interface CalculationResult"),
+                ".d.ts file should declare CalculationResult bean interface");
+
+        // Verify bean properties are included
+        assertTrue(content.contains("name: string"),
+                ".d.ts file should include Person.name property");
+        assertTrue(content.contains("age: number"),
+                ".d.ts file should include Person.age property");
+        assertTrue(content.contains("street: string"),
+                ".d.ts file should include Address.street property");
+        assertTrue(content.contains("city: string"),
+                ".d.ts file should include Address.city property");
+        assertTrue(content.contains("value: number"),
+                ".d.ts file should include CalculationResult.value property");
+
+        // Verify nested beans are 'any' (single-level depth)
+        assertTrue(content.contains("address: any"),
+                ".d.ts file should map nested Person.address to any (depth limit)");
     }
 }
