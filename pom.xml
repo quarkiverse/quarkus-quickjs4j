@@ -19,7 +19,7 @@
     <properties>
         <quarkus.version>3.31.0</quarkus.version>
         <quickjs4j.version>0.0.13</quickjs4j.version>
-        <roaster.version>2.30.3.Final</roaster.version>
+        <roaster.version>2.31.0.Final</roaster.version>
     </properties>
 
     <description>A Quarkus Extension to run JavaScript plugins in Java</description>
