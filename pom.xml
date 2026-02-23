@@ -17,7 +17,7 @@
     </modules>
 
     <properties>
-        <quarkus.version>3.31.2</quarkus.version>
+        <quarkus.version>3.32.0</quarkus.version>
         <quickjs4j.version>0.0.14</quickjs4j.version>
         <roaster.version>2.31.0.Final</roaster.version>
     </properties>
