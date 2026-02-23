@@ -18,7 +18,7 @@
 
     <properties>
         <quarkus.version>3.31.2</quarkus.version>
-        <quickjs4j.version>0.0.13</quickjs4j.version>
+        <quickjs4j.version>0.0.14</quickjs4j.version>
         <roaster.version>2.31.0.Final</roaster.version>
     </properties>
 
