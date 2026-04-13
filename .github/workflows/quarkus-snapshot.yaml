@@ -11,9 +11,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-build:
-  uses: quarkiverse/.github/.github/workflows/quarkus-ecosystem-ci.yml@main
-  secrets: inherit
-  with:
-    ecosystem_ci_repo_path: quarkiverse-quickjs4j
-    java_version: 17
+jobs:
+  build:
+    uses: quarkiverse/.github/.github/workflows/quarkus-ecosystem-ci.yml@main
+    secrets: inherit
+    with:
+      ecosystem_ci_repo_path: quarkiverse-quickjs4j
+      java_version: 17
